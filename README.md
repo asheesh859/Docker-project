@@ -47,18 +47,6 @@ This project demonstrates how to set up and deploy a simple web application usin
 ### 3. Test the Application Locally
 - Open your browser and go to `http://localhost:80` to verify that the application is running.
 
-### 4. Deploy on AWS (Three-Tier Architecture)
-1. Create an IAM user with `AdministratorAccess` and generate an access key.
-2. Configure the AWS CLI:
-   ```bash
-   aws configure
-   ```
-3. Set up the architecture with the following layers:
-   - **Frontend (Web Application)**: Hosted in a Docker container.
-   - **Backend (Application Layer)**: Managed using AWS services.
-   - **Database Layer**: Connect to a managed database instance.
-
----
 
 ## Key Commands
 

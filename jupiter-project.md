@@ -71,7 +71,7 @@ git push
    ```
    This command will build the Docker image. It consists of seven steps as outlined in the Dockerfile.
    <img src="https://github.com/user-attachments/assets/7c4b2fd4-045b-4d4d-bcf3-01a4d9f74604"
- width="600" background-size="cover"/>
+ width="800" background-size="cover"/>
 
 3. Run the Docker container:
    ```bash

@@ -106,3 +106,19 @@ git push
 4. Choose the use case: `Application running on an AWS compute service`.
 5. Optionally, add a description tag and then click "Create access key".
 6. **Download the `.csv` file** containing the access key. Note: The access key can only be downloaded once. Ensure its status is `Active`.
+
+### Step 3: Configure AWS CLI
+
+1. Install the AWS CLI if it is not already installed:
+   ```bash
+   curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
+   sudo installer -pkg AWSCLIV2.pkg -target /
+   ```
+
+2. Configure the AWS CLI with your credentials:
+   ```bash
+   aws configure
+   ```
+   - Enter the **Access Key ID** and **Secret Access Key** from the `.csv` file.
+   - Specify your preferred region (e.g., `us-east-1`).
+   - Set the output format (e.g., `json`).

@@ -4,7 +4,7 @@ Docker-project for jupiter website
 
 ## Overview
 
-This project demonstrates how to set up and deploy a simple web application using Docker and a three-tier architecture on AWS. It involves creating a Docker image for a web application (`Jupiter-website`), running the application locally in a container, and deploying the architecture on AWS.
+This project demonstrates how to set up and deploy a simple web application using Docker. It involves creating a Docker image for a web application (`Jupiter-website`), running the application locally in a container.
 
 ---
 

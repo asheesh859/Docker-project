@@ -122,8 +122,9 @@ git push
    - Enter the **Access Key ID** and **Secret Access Key** from the `.csv` file.
    - Specify your preferred region (e.g., `us-east-1`).
    - Set the output format (e.g., `json`).
-  
-   - ### Step 3: Create a Three-Tier Architecture of VPC
+
+
+ ### Step 3: Create a Three-Tier Architecture of VPC
 
 #### Create VPC
 1. Login to AWS and search for **VPC**.

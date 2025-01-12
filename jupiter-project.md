@@ -122,3 +122,111 @@ git push
    - Enter the **Access Key ID** and **Secret Access Key** from the `.csv` file.
    - Specify your preferred region (e.g., `us-east-1`).
    - Set the output format (e.g., `json`).
+  
+   - ### Step 3: Create a Three-Tier Architecture of VPC
+
+#### Create VPC
+1. Login to AWS and search for **VPC**.
+2. Click on **Create VPC**.
+   - **Name**: dev-VPC
+   - **IPv4 CIDR**: `10.0.0.0/16`
+   - Click **Create**.
+3. Go to the **Actions** button and select **Edit DNS Hostnames**.
+   - Enable **DNS Hostnames**.
+
+---
+
+### Step 4: Create and Attach an Internet Gateway
+
+1. Navigate to **Internet Gateway**.
+2. Click **Create Internet Gateway**.
+   - **Name**: Dev Internet Gateway
+3. Select the newly created gateway, click on the **Actions** button, and select **Attach to VPC**.
+   - Search for **dev-VPC** and attach the internet gateway.
+
+---
+
+### Step 5: Create Subnets
+
+#### Create Public Subnets
+1. Navigate to **Subnets** and click **Create Subnet**.
+
+   **First Public Subnet:**
+   - **VPC**: Dev VPC
+   - **Subnet Name**: Public Subnet AZ-1
+   - **Availability Zone**: us-east-1a (N. Virginia)
+   - **CIDR Block**: `10.0.0.0/24`
+   - Click **Create Subnet**.
+
+   **Second Public Subnet:**
+   - **VPC**: Dev VPC
+   - **Subnet Name**: Public Subnet AZ-2
+   - **Availability Zone**: us-east-1b (N. Virginia)
+   - **CIDR Block**: `10.0.1.0/24`
+   - Click **Create Subnet**.
+
+2. Enable Auto-Assign Public IP Addresses:
+   - **Public Subnet AZ-1**:
+     - Select the subnet and click **Actions** > **Edit Subnet Settings**.
+     - Enable **Auto-assign IPv4 Public IP** and save changes.
+   - **Public Subnet AZ-2**:
+     - Repeat the same process.
+
+---
+
+### Step 6: Create and Configure a Public Route Table
+
+1. Navigate to **Route Tables** and click **Create Route Table**.
+   - **Name**: Public Route Table
+   - **VPC**: Dev VPC
+   - Click **Create Route Table**.
+
+2. Allow Internet Access:
+   - Select the Public Route Table and click **Edit Routes**.
+   - Add a route:
+     - **Destination**: `0.0.0.0/0`
+     - **Target**: Internet Gateway > Dev Internet Gateway
+   - Click **Save Changes**.
+
+3. Associate the Route Table with Public Subnets:
+   - Click **Edit Subnet Associations**.
+   - Select both **Public Subnet AZ-1** and **Public Subnet AZ-2**.
+   - Save the association.
+
+---
+
+### Step 7: Create Private Subnets
+
+#### Create Application Subnets
+1. Navigate to **Subnets** and click **Create Subnet**.
+
+   **First Private App Subnet:**
+   - **VPC**: Dev VPC
+   - **Subnet Name**: Private App Subnet AZ-1
+   - **Availability Zone**: us-east-1a (N. Virginia)
+   - **CIDR Block**: `10.0.2.0/24`
+   - Click **Create Subnet**.
+
+   **Second Private App Subnet:**
+   - **VPC**: Dev VPC
+   - **Subnet Name**: Private App Subnet AZ-2
+   - **Availability Zone**: us-east-1b (N. Virginia)
+   - **CIDR Block**: `10.0.3.0/24`
+   - Click **Create Subnet**.
+
+#### Create Data Subnets
+
+   **Third Private Data Subnet:**
+   - **VPC**: Dev VPC
+   - **Subnet Name**: Private Data Subnet AZ-1
+   - **Availability Zone**: us-east-1a (N. Virginia)
+   - **CIDR Block**: `10.0.4.0/24`
+   - Click **Create Subnet**.
+
+   **Fourth Private Data Subnet:**
+   - **VPC**: Dev VPC
+   - **Subnet Name**: Private Data Subnet AZ-2
+   - **Availability Zone**: us-east-1b (N. Virginia)
+   - **CIDR Block**: `10.0.5.0/24`
+   - Click **Create Subnet**.
+

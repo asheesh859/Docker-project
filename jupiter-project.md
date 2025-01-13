@@ -1,4 +1,4 @@
-# Docker File for Jupiter-Website and Three-Tier Architecture on AWS
+   # Docker File for Jupiter-Website and Three-Tier Architecture on AWS
 
 ## Step 1: Create GitHub Repository
 
@@ -230,4 +230,113 @@ git push
    - **Availability Zone**: us-east-1b (N. Virginia)
    - **CIDR Block**: `10.0.5.0/24`
    - Click **Create Subnet**.
+
+# Step 8: Create NAT Gateway
+
+### Create NAT Gateway for AZ-1
+1. Go to AWS and search for **VPC**.
+2. Select **NAT Gateway**.
+3. Set the following details:
+   - **Name:** NAT Gateway AZ-1
+   - **Subnet:** Public Subnet AZ-1
+   - **Connectivity Type:** Public
+4. Allow **Elastic IP Address**.
+5. Click **Create NAT Gateway**.
+
+### Create a Public Route Table
+1. Navigate to **Route Table**.
+2. Set the following details:
+   - **Name:** Private Route Table Z-1
+   - **VPC:** DEV VPC
+3. Create the table and scroll to the bottom.
+4. Select **Route** and click **Edit Route**.
+5. Add the following route:
+   - **Destination:** 0.0.0.0/0
+   - **Target:** NAT Gateway AZ-1
+6. Save the route.
+
+### Associate Subnets with the Route Table
+1. Click **Subnet Association** in the route table and edit subnet associations.
+2. Select:
+   - Private App Subnet AZ-1
+   - Private Data Subnet AZ-1
+3. Save the associations.
+
+### Create NAT Gateway for AZ-2
+1. Select **NAT Gateway** and create a new NAT Gateway:
+   - **Name:** NAT Gateway AZ-2
+   - **Subnet:** Public Subnet AZ-2
+2. Allow **Elastic IP Address**.
+3. Click **Create NAT Gateway**.
+
+### Create Private Route Table for AZ-2
+1. Navigate to **Route Table** and set the following:
+   - **Name:** Private Route Table AZ-2
+   - **VPC:** DEV VPC
+2. Create the route table.
+3. Navigate to **Routes** and click **Edit Route**.
+4. Add the following route:
+   - **Destination:** 0.0.0.0/0
+   - **Target:** NAT Gateway AZ-2
+5. Save the route.
+
+### Associate Subnets with the Route Table
+1. Edit subnet associations.
+2. Select:
+   - Private App Subnet AZ-2
+   - Private Data Subnet AZ-2
+3. Save the associations.
+
+# Step 9: Create Security Groups
+
+### Create ALB Security Group
+1. Navigate to **Security Groups** and click **Create Security Group**.
+2. Set the following:
+   - **Name:** ALB Security Group
+   - **Description:** ALB Security Group
+   - **VPC:** DEV VPC
+3. Add **Inbound Rules**:
+   - **Type:** HTTP
+     - **Source:** Anywhere (0.0.0.0/0)
+   - **Type:** HTTPS
+     - **Source:** Anywhere (0.0.0.0/0)
+
+### Create Container Security Group
+1. Navigate to **Security Groups** and click **Create Security Group**.
+2. Set the following:
+   - **Name:** Container Security Group
+   - **Description:** Container Security Group
+   - **VPC:** DEV VPC
+3. Add **Inbound Rules**:
+   - **Type:** HTTP
+     - **Source:** ALB Security Group
+   - **Type:** HTTPS
+     - **Source:** ALB Security Group
+4. Save the security group.
+
+# Step 10: Create Load Balancer
+
+### Create Target Group
+1. Go to the AWS Console home and search for **EC2**.
+2. Select **Target Group** and click **Create Target Group**.
+3. Set the following:
+   - **Type:** IP Address
+   - **Name:** Dev-tag
+   - **VPC:** DEV VPC
+4. Click **Next** and create the target group.
+
+### Create Application Load Balancer
+1. Navigate to **Load Balancer** and click **Create Application Load Balancer**.
+2. Set the following:
+   - **Name:** Dev-VPC
+   - **VPC:** DEV VPC
+   - **Availability Zones:**
+     - Public Subnet AZ-1
+     - Public Subnet AZ-2
+   - **Security Group:** ALB Security Group
+3. Set **Listener and Routing**:
+   - **Forward to:** Dev-tag
+4. Click **Create Load Balancer**.
+5. View the load balancer and wait for its state to change to **Active**.
+
 

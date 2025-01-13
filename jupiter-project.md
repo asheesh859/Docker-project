@@ -339,4 +339,63 @@ git push
 4. Click **Create Load Balancer**.
 5. View the load balancer and wait for its state to change to **Active**.
 
+# Step 12: Create Cluster for the Project
 
+### Create ECS Cluster
+1. Navigate to the AWS Console home, search for **ECS**, and select **Cluster**.
+2. Click **Create Cluster** and set the following:
+   - **Cluster Name:** Jupiter-cluster
+   - **Infrastructure:** AWS Fargate (Serverless)
+3. Save and wait for the cluster to be created.
+
+### Create Task Definition
+1. Navigate to **Task Definition** and click **Create Task**.
+2. Set the following details:
+   - **Task Family:** Jupiter-task-definition
+   - **Infrastructure Requirement:** AWS Fargate
+   - **Operating System/Architecture:** Linux/x86_64
+3. Add **Container Details**:
+   - **Name:** Jupiter
+   - **Image URI:** Copy the URI from the ECR repository and paste it here.
+4. Create the task.
+
+# Step 13: Create Service in ECS Cluster
+
+### Create ECS Service
+1. Select the cluster and go to **Service**, then click **Create**.
+2. Set the following:
+   - **Deployment Configuration:** Service
+   - **Family:** Jupiter-task-definition
+   - **Service Name:** Jupiter-service
+   - **Networking:**
+     - **VPC:** DEV VPC
+     - **Subnets:** Remove all subnets, then select:
+       - Private App Subnet AZ-1
+       - Private App Subnet AZ-2
+   - **Security Group Name:** Container Security Group
+   - **Public IP:** Turn off
+3. Configure the **Load Balancer**:
+   - **Type:** Application Load Balancer
+   - **Application Load Balancer:** Use an existing load balancer
+   - **Load Balancer:** Dev-ALB
+   - **Listener:** Use an existing listener
+   - **Listener Port:** 80:HTTP
+   - **Target Group:** Use an existing target group
+   - **Name:** Dev-tag
+4. Configure **Service Auto Scaling (Optional):**
+   - Enable **Service Auto Scaling**.
+   - **Minimum Number of Tasks:** 1
+   - **Maximum Number of Tasks:** 2
+   - **Policy Name:** Jupiter
+   - **ECS Service Metric:** ECS service average CPU Utilization
+   - **Target Value:** 70
+   - **Scale-Out Cool-Down Period:** 300 seconds
+   - **Scale-In Cool-Down Period:** 300 seconds
+5. Create the service.
+
+# Step 14: Test the Application
+
+### Verify Application Deployment
+1. Navigate to **Load Balancer** in the AWS Console.
+2. Click the load balancer and copy the **DNS Name**.
+3. Paste the DNS URL into a browser to access the application.

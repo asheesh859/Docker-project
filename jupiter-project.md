@@ -125,7 +125,8 @@ git push
 
 
  ### Step 3: Create a Three-Tier Architecture of VPC
-![image](https://github.com/user-attachments/assets/f5a4419a-b7b5-416b-830f-8ae467715a55)
+![image](https://github.com/user-attachments/assets/0673da5d-841d-44f8-8dc8-7701731cd952)
+
 
 #### Create VPC
 1. Login to AWS and search for **VPC**.

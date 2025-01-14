@@ -125,7 +125,8 @@ git push
 
 
  ### Step 3: Create a Three-Tier Architecture of VPC
-![image](https://github.com/user-attachments/assets/0673da5d-841d-44f8-8dc8-7701731cd952)
+  <img src="https://github.com/user-attachments/assets/0673da5d-841d-44f8-8dc8-7701731cd952"
+ width="800" background-size="cover"/>
 
 
 #### Create VPC
